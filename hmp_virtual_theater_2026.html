@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>仮想劇場 2026 — エイチエムピー・シアターカンパニー</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500&family=Shippori+Mincho:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ed;
+    --yellow: #e8d84a;
+    --gray: #2a2a2a;
+    --mid: #888;
+    --light: #c8c4bc;
+    --accent: #c8a832;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 300;
+    line-height: 1.9;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .nav-logo {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: var(--yellow);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 400;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.4rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--light);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    letter-spacing: 0.12em;
+    transition: color 0.25s;
+  }
+
+  .nav-links a:hover { color: var(--yellow); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10rem 4rem 6rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--yellow);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--yellow);
+  }
+
+  .hero-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title em {
+    display: block;
+    font-style: normal;
+    color: var(--yellow);
+    font-size: 0.6em;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.8rem;
+    color: var(--mid);
+    font-family: 'Noto Sans JP', sans-serif;
+    letter-spacing: 0.08em;
+    margin-top: 2rem;
+    line-height: 2;
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--black) 0%, transparent 30%),
+                linear-gradient(to top, var(--black) 0%, transparent 40%);
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: -2rem;
+    transform: translateY(-50%);
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(6rem, 12vw, 14rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.03);
+    writing-mode: vertical-rl;
+    line-height: 1;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-visual-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    opacity: 0.35;
+  }
+
+  .hero-grid-cell {
+    background: var(--gray);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-cell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(232,216,74,0.08) 0%, transparent 60%);
+  }
+
+  /* Simulated silhouette figures */
+  .figure {
+    position: absolute;
+    bottom: 0;
+    background: rgba(255,255,255,0.12);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 3rem;
+    left: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--mid);
+  }
+
+  .scroll-line {
+    width: 60px;
+    height: 1px;
+    background: var(--mid);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--yellow);
+    animation: scanline 2s ease-in-out infinite;
+  }
+
+  @keyframes scanline {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  /* ── SECTIONS COMMON ── */
+  section {
+    padding: 7rem 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .section-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    color: var(--yellow);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(232,216,74,0.3);
+    max-width: 80px;
+  }
+
+  .section-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 3rem;
+    color: var(--white);
+  }
+
+  /* ── GREETING ── */
+  #greeting {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .greeting-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .greeting-sticky {
+    position: sticky;
+    top: 8rem;
+  }
+
+  .greeting-body p {
+    margin-bottom: 1.6em;
+    color: var(--light);
+    font-size: 0.92rem;
+    line-height: 2.1;
+  }
+
+  .greeting-sign {
+    margin-top: 3rem;
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    text-align: right;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: #111;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #about::before {
+    content: 'HMP';
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20rem;
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 700;
+    color: rgba(255,255,255,0.02);
+    pointer-events: none;
+  }
+
+  .about-timeline {
+    border-left: 1px solid rgba(255,255,255,0.1);
+    padding-left: 3rem;
+    position: relative;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -3.38rem;
+    top: 0.45rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--yellow);
+    box-shadow: 0 0 12px var(--yellow);
+  }
+
+  .timeline-year {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--yellow);
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-text {
+    color: var(--light);
+    font-size: 0.9rem;
+    line-height: 2;
+  }
+
+  .method-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    margin-top: 4rem;
+  }
+
+  .method-card {
+    background: var(--gray);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .method-card:hover { background: #333; }
+
+  .method-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--yellow);
+  }
+
+  .method-num {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--yellow);
+    margin-bottom: 1rem;
+  }
+
+  .method-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .method-desc {
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.9;
+  }
+
+  /* ── VIRTUAL THEATER ── */
+  #virtual {
+    background: var(--black);
+    position: relative;
+  }
+
+  .quote-block {
+    border-left: 3px solid var(--yellow);
+    padding: 1.5rem 2.5rem;
+    margin: 2.5rem 0;
+    background: rgba(232,216,74,0.04);
+  }
+
+  .quote-block p {
+    font-size: 0.88rem;
+    color: var(--light);
+    line-height: 2.2;
+    font-style: normal;
+  }
+
+  .quote-source {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--mid);
+    margin-top: 0.8rem;
+  }
+
+  .system-diagram {
+    background: var(--gray);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 3rem;
+    margin: 3rem 0;
+    position: relative;
+  }
+
+  .system-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--yellow);
+    margin-bottom: 2rem;
+  }
+
+  .system-nodes {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .node {
+    text-align: center;
+  }
+
+  .node-box {
+    background: rgba(232,216,74,0.1);
+    border: 1px solid rgba(232,216,74,0.3);
+    padding: 0.8rem 1.5rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.7rem;
+    color: var(--yellow);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+
+  .node-box.core {
+    background: rgba(232,216,74,0.2);
+    border-color: var(--yellow);
+    font-size: 0.8rem;
+  }
+
+  .node-label {
+    font-size: 0.58rem;
+    color: var(--mid);
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+
+  .arrow {
+    color: var(--yellow);
+    font-size: 1.2rem;
+    opacity: 0.5;
+  }
+
+  /* ── PROGRAM 2025 ── */
+  #program {
+    background: #0e0e0e;
+  }
+
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 3rem;
+    font-size: 0.82rem;
+  }
+
+  .schedule-table th {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--yellow);
+    text-align: left;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(232,216,74,0.3);
+    font-weight: 400;
+  }
+
+  .schedule-table td {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--light);
+    vertical-align: top;
+    line-height: 1.8;
+  }
+
+  .schedule-table tr:hover td {
+    background: rgba(255,255,255,0.02);
+  }
+
+  .schedule-date {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.78rem;
+    color: var(--white);
+    white-space: nowrap;
+  }
+
+  .tag {
+    display: inline-block;
+    background: rgba(232,216,74,0.1);
+    border: 1px solid rgba(232,216,74,0.25);
+    color: var(--yellow);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.7rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── PERFORMANCE ── */
+  #performance {
+    background: var(--black);
+  }
+
+  .performance-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .info-card {
+    background: var(--gray);
+    padding: 2.5rem;
+  }
+
+  .info-card-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--yellow);
+    margin-bottom: 1.5rem;
+  }
+
+  .info-list {
+    list-style: none;
+  }
+
+  .info-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.82rem;
+    color: var(--light);
+  }
+
+  .info-list li:last-child { border-bottom: none; }
+
+  .info-label {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.65rem;
+    color: var(--mid);
+    white-space: nowrap;
+    padding-top: 0.05rem;
+  }
+
+  .voices-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 4rem;
+  }
+
+  .voice-card {
+    background: var(--gray);
+    padding: 2rem 2.5rem;
+    border-top: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  .voice-card:hover { border-top-color: var(--yellow); }
+
+  .voice-dash {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.65rem;
+    color: var(--yellow);
+    margin-bottom: 0.8rem;
+  }
+
+  .voice-text {
+    font-size: 0.85rem;
+    color: var(--light);
+    line-height: 2;
+  }
+
+  /* ── ESSAY ── */
+  #essay {
+    background: #0c0c0c;
+  }
+
+  .essay-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 5rem;
+  }
+
+  .essay-nav {
+    position: sticky;
+    top: 8rem;
+  }
+
+  .essay-nav-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    color: var(--mid);
+    margin-bottom: 1.5rem;
+  }
+
+  .essay-nav-list {
+    list-style: none;
+  }
+
+  .essay-nav-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .essay-nav-list a {
+    color: var(--mid);
+    text-decoration: none;
+    font-size: 0.78rem;
+    transition: color 0.25s;
+    display: block;
+    padding: 0.3rem 0;
+  }
+
+  .essay-nav-list a:hover { color: var(--yellow); }
+
+  .essay-content h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--white);
+    margin: 3rem 0 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .essay-content h3:first-child { margin-top: 0; }
+
+  .essay-content p {
+    font-size: 0.9rem;
+    color: var(--light);
+    line-height: 2.2;
+    margin-bottom: 1.5em;
+  }
+
+  .essay-author {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    color: var(--white);
+    text-align: right;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── CREDITS ── */
+  #credits {
+    background: #080808;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .credits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  .credit-group-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--yellow);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(232,216,74,0.2);
+  }
+
+  .credit-group p {
+    font-size: 0.78rem;
+    color: var(--mid);
+    line-height: 1.9;
+  }
+
+  .credit-group a {
+    color: var(--light);
+    font-weight: 500;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    color: var(--white);
+  }
+
+  .footer-copy {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.6rem;
+    color: var(--mid);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(232,216,74,0.3), transparent);
+    margin: 4rem 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 8rem 2rem 5rem; }
+    .container { padding: 0 1.5rem; }
+    .greeting-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .greeting-sticky { position: static; }
+    .method-grid { grid-template-columns: 1fr; }
+    .performance-info { grid-template-columns: 1fr; gap: 2rem; }
+    .voices-grid { grid-template-columns: 1fr; }
+    .essay-layout { grid-template-columns: 1fr; }
+    .essay-nav { display: none; }
+    .credits-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">HMP THEATER COMPANY</div>
+  <ul class="nav-links">
+    <li><a href="#greeting">ごあいさつ</a></li>
+    <li><a href="#about">劇団について</a></li>
+    <li><a href="#virtual">仮想劇場</a></li>
+    <li><a href="#program">2025年プログラム</a></li>
+    <li><a href="#performance">成果発表</a></li>
+    <li><a href="#essay">論考</a></li>
+    <li><a href="#credits">クレジット</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-left">
+    <div class="hero-label">HMP THEATER COMPANY × OSAKA UNIVERSITY</div>
+    <h1 class="hero-title">
+      <em>仮想劇場</em>
+      ブカブカジョーシ<br>ブカジョーシ
+    </h1>
+    <p class="hero-subtitle">
+      エイチエムピー・シアターカンパニー<br>
+      大阪大学中之島芸術センター<br>
+      デジタル・パフォーマンスの記録 ／ 2026
+    </p>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      SCROLL
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual-grid">
+      <div class="hero-grid-cell"></div>
+      <div class="hero-grid-cell" style="opacity:0.7"></div>
+      <div class="hero-grid-cell" style="opacity:0.5"></div>
+      <div class="hero-grid-cell"></div>
+    </div>
+    <div class="hero-bg-text">劇</div>
+  </div>
+</header>
+
+<!-- GREETING -->
+<section id="greeting">
+  <div class="container">
+    <div class="greeting-layout">
+      <div class="greeting-sticky fade-in">
+        <div class="section-label">GREETING</div>
+        <h2 class="section-title">ごあいさつ</h2>
+      </div>
+      <div class="greeting-body fade-in">
+        <p>この冊子は、2025年度に実施した大阪大学中之島芸術センター主催の「「アート×学問」の未来デザイン　総合大学におけるコンバージェンス・アート新進芸術家等育成プログラム」のうち、選択履修科目の「演劇〈デジタル・パフォーマンスの創造〉」の記録です。</p>
+        <p>大阪大学中之島芸術センターは、芸術文化と学問の学際的な融合を実現できる人材の育成を目指し、社会人芸術家育成プログラムを始動。私どもエイチエムピー・シアターカンパニーが講師として参加し、受講生とともにデジタル・メディアを使った演劇作品「仮想劇場『ブカブカジョーシブカジョーシ』」のリクリエーションを行いました。</p>
+        <p>「仮想劇場」とは、ミーティング・アプリケーションや動画配信システムを活用し、出演者がそれぞれ自宅から演技した映像をリアルタイムに合成することで、まるで同一空間で共演しているかのように見せるオンライン演劇です。2020年春の緊急事態宣言下、対面での稽古や劇場公演が困難となる中、バーチャル空間における新たな劇場のあり方として構築しました。</p>
+        <p>最終日の成果発表では、会場内に二つのエリアを設け、仮想劇場を多面的に鑑賞できる構成を試みました。ひとつは実際に俳優が演技する様子と合成映像を同時に鑑賞できる「スタジオ」、もうひとつは中之島の街並みを借景に映画館のような環境で作品を鑑賞できる「ルーム」です。</p>
+        <p>コロナ禍を経て、さらに進化を続ける「仮想劇場」。この記録が、リアルとオンラインのあいだに生まれる新たな表現の可能性を示すものになればと願っております。</p>
+        <div class="greeting-sign">髙安 美帆</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label fade-in">ABOUT</div>
+    <h2 class="section-title fade-in">エイチエムピー・<br>シアターカンパニーとは</h2>
+
+    <div class="about-timeline fade-in">
+      <div class="timeline-item">
+        <div class="timeline-year">1999</div>
+        <div class="timeline-text">近畿大学文芸学部在学中の伊藤友哉と笠井友仁を中心に、ハイナー・ミュラーの戯曲『ハムレットマシーン』を上演するための研究会を発足。「エイチエムピー」は "Hamlet Machine Project" の略。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2001</div>
+        <div class="timeline-text">「hmp」と名乗って劇団活動を開始。ドイツ語圏の文学作品を題材にした演劇作品を上演。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2008</div>
+        <div class="timeline-text">団体名を「エイチエムピー・シアターカンパニー」に変更。演出の笠井友仁がベルリンの演劇祭Theater Treffenのインターナショナル・フォーラムに参加。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2011</div>
+        <div class="timeline-text">俳優の髙安美帆がTheater Treffenに参加。「同時代の海外戯曲」シリーズがスタート。東日本大震災も集団の活動に大きな影響を与える。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2014</div>
+        <div class="timeline-text">日本の古典戯曲をリクリエイションする「現代日本演劇のルーツ」シリーズを開始。鶴屋南北や近松門左衛門の名作戯曲を題材にした作品を創作。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-text">コロナ禍のなかで、仮想劇場『ブカブカジョーシブカジョーシ』を創作。オンライン会議サービスを利用したリアルタイム合成演劇を5月22日〜24日に上演。</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2021–2023</div>
+        <div class="timeline-text">『マクベス 釜と剣』が令和3年度文化庁芸術祭演劇部門優秀賞、『リチャード三世 馬とホモサケル』が第二回関西えんげき大賞を受賞。</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-label fade-in">METHOD</div>
+    <h3 class="section-title fade-in" style="font-size:1.6rem">表現手法について</h3>
+
+    <div class="method-grid fade-in">
+      <div class="method-card">
+        <div class="method-num">01 — 作風</div>
+        <div class="method-title">文学の精読と<br>独自解釈</div>
+        <div class="method-desc">戯曲や小説など、題材となる文学作品を丁寧に読解したうえで、独自のアイデアを持ち込んだ演劇作品の創作を試みる。テキストの批評的な読みが創作の出発点。</div>
+      </div>
+      <div class="method-card">
+        <div class="method-num">02 — 演技法</div>
+        <div class="method-title">発語・身振り・<br>意図の分離</div>
+        <div class="method-desc">俳優の演技は「発語」「身振り」「意図」の3つに分類され、それぞれを独立させてコントロールすることが求められる。演技はあらゆる事物への「反応」である。</div>
+      </div>
+      <div class="method-card">
+        <div class="method-num">03 — 演出法</div>
+        <div class="method-title">タイムライン・<br>レイヤー・空間</div>
+        <div class="method-desc">音をひとつの連続した「タイムライン」として捉え、視覚表現が層をなす「レイヤー」の概念を持つ。定まったプラットフォームを持たず、作品に合わせて空間を選ぶ・つくる。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIRTUAL THEATER -->
+<section id="virtual">
+  <div class="container">
+    <div class="section-label fade-in">2020 ORIGIN</div>
+    <h2 class="section-title fade-in">緊急事態宣言下で上演した<br>仮想劇場</h2>
+
+    <div class="fade-in">
+      <p style="color:var(--light);font-size:0.92rem;line-height:2.2;margin-bottom:2rem">2020年春、新型コロナウイルス感染症が蔓延し、人と人が直に会うことを禁じられた状況で、どのような演劇創作ができるのか——エイチエムピー・シアターカンパニーの出演者、スタッフがアイデアを出し合いながら行った試みが仮想劇場『ブカブカジョーシブカジョーシ』である。出演者は各自の住まいで演技を行い、その動画をデジタル技術を使って合成し、2020年5月22日〜24日、画面越しの観客に向けてリアルタイムでオンライン上演を行った。</p>
+    </div>
+
+    <div class="quote-block fade-in">
+      <p>まず俳優には語りを中心に取り組んでもらいます。ZOOMなどのミーティングサイトを使い、稽古を重ね、朗読や対話を録音します。（中略）例えば、空間を共有せずに演劇を作ることを目指したいと思います。</p>
+      <div class="quote-source">— 笠井友仁（2020年4月3日のメールより）</div>
+    </div>
+
+    <div class="system-diagram fade-in">
+      <div class="system-title">▸ 仮想劇場のシステム構成（2020年初演時）</div>
+      <div class="system-nodes">
+        <div class="node">
+          <div class="node-box">俳優A・B・C…</div>
+          <div class="node-label">各自宅／Zoom</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node">
+          <div class="node-box core">VJソフト<br>映像合成</div>
+          <div class="node-label">Resolume Arena</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node">
+          <div class="node-box">OBS<br>配信ソフト</div>
+          <div class="node-label">映像出力</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node">
+          <div class="node-box">Vimeo<br>配信プラットフォーム</div>
+          <div class="node-label">観客へ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block fade-in">
+      <p>新しい表現方法を探ることは賛成ですが、笠井さんが提案してくれる方法で作った作品が果たして演劇作品、舞台作品と言えるのか、そこの議論が必要な気がしています。何をもって演劇・舞台作品なのかを議論したいです。</p>
+      <div class="quote-source">— 制作・前田瑠佳（2020年4月8日のメールより）</div>
+    </div>
+
+    <div class="fade-in" style="margin-top:3rem">
+      <h3 style="font-family:'Shippori Mincho',serif;font-size:1.2rem;color:var(--white);margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(255,255,255,0.08)">「無いならつくる」の精神</h3>
+      <p style="color:var(--light);font-size:0.9rem;line-height:2.2">「公演ができる劇場がないから、丸太を組んで野外でやるしかなかった」と言っていた関西の演劇人の考え方。無いから考える、無いならつくる——このような精神性が「仮想劇場」を生んだ。</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM 2025 -->
+<section id="program">
+  <div class="container">
+    <div class="section-label fade-in">2025–2026</div>
+    <h2 class="section-title fade-in">2025年のプログラムについて</h2>
+
+    <div class="fade-in">
+      <p style="color:var(--light);font-size:0.92rem;line-height:2.2;margin-bottom:3rem">2025年10月から2026年1月まで、受講生とともにデジタル・メディアを使った演劇作品の創作を行った。「仮想劇場」の仕組みを受講生にレクチャーし、2020年5月にインターネット上で上演した『ブカブカジョーシブカジョーシ』のリクリエーションを試みた。</p>
+    </div>
+
+    <div class="fade-in">
+      <div class="section-label" style="margin-top:2rem">STAFF</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem">
+        <div style="background:var(--gray);padding:2rem">
+          <div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;letter-spacing:0.2em;color:var(--yellow);margin-bottom:1rem">講師</div>
+          <p style="font-size:0.85rem;color:var(--light);line-height:2">笠井友仁、髙安美帆、サカイヒロト、森田祐利栄、岸本昌也、藤田和広、宮田充規</p>
+        </div>
+        <div style="background:var(--gray);padding:2rem">
+          <div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;letter-spacing:0.2em;color:var(--yellow);margin-bottom:1rem">受講生</div>
+          <p style="font-size:0.85rem;color:var(--light);line-height:2">植森阿津子、近江由紀子、小野毅、清水彩雲、辻麻依加、松田栄子、湯川元</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label fade-in">SCHEDULE</div>
+    <table class="schedule-table fade-in">
+      <thead>
+        <tr>
+          <th>日時</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="schedule-date">10月11日（土）</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;color:var(--mid)">第1回</div></td>
+          <td>
+            <div class="tag">講義</div>
+            <div>「仮想劇場とは何かⅠ」エイチエムピー・シアターカンパニーの創作方法を紹介。「演劇とは何か」「仮想劇場とは」</div>
+          </td>
+        </tr>
+        <tr>
+          <td><div class="schedule-date">10月25日（土）</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;color:var(--mid)">第2回</div></td>
+          <td>
+            <div class="tag">講義 + 実演</div>
+            <div>「仮想劇場とは何かⅡ」作品読み合わせ、一部上映、映像手法・構造の講義、Zoomテスト。宿題：視聴・感想提出</div>
+          </td>
+        </tr>
+        <tr>
+          <td><div class="schedule-date">11月7日（金）</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;color:var(--mid)">第3回</div></td>
+          <td>
+            <div class="tag">実践</div>
+            <div>「仮想劇場とは何かⅢ」バミリの作成、仮想劇場の準備、音源編集の講義</div>
+          </td>
+        </tr>
+        <tr>
+          <td><div class="schedule-date">11月21日（金）</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;color:var(--mid)">第4回</div></td>
+          <td>
+            <div class="tag">稽古</div>
+            <div>「仮想劇場を創作するⅠ」セリフの録音や上演にむけたバミリ。仮想劇場を体験しながら読み合わせ。宿題：音源提出</div>
+          </td>
+        </tr>
+        <tr>
+          <td><div class="schedule-date">12月5日（金）</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;color:var(--mid)">第5回</div></td>
+          <td>
+            <div class="tag">稽古</div>
+            <div>「仮想劇場を創作するⅡ」通し稽古</div>
+          </td>
+        </tr>
+        <tr>
+          <td><div class="schedule-date">12月6日（土）</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;color:var(--mid)">第6回</div></td>
+          <td>
+            <div class="tag">稽古</div>
+            <div>「仮想劇場を創作するⅢ」通し稽古。宿題：小道具・衣装を本番までに用意</div>
+          </td>
+        </tr>
+        <tr>
+          <td><div class="schedule-date">1月30日（金）</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;color:var(--mid)">第7回</div></td>
+          <td>
+            <div class="tag">仕込み・ゲネ</div>
+            <div>「仮想劇場を創作するⅣ」翌日の上演のための仕込み、ランスルー、公開ゲネプロ</div>
+          </td>
+        </tr>
+        <tr>
+          <td><div class="schedule-date">1月31日（土）</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:0.62rem;color:var(--mid)">第8回</div></td>
+          <td>
+            <div class="tag">本番</div>
+            <div>「仮想劇場を創作するⅤ」<strong style="color:var(--white)">成果発表・公演</strong>　17:00〜19:10</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-family:'Noto Sans JP',sans-serif;font-size:0.65rem;color:var(--mid);margin-top:1rem">※ 会場はいずれも、大阪大学中之島芸術センター　／　このスケジュール以外に1月6日・26日・29日の3回追加稽古を実施</p>
+  </div>
+</section>
+
+<!-- PERFORMANCE -->
+<section id="performance">
+  <div class="container">
+    <div class="section-label fade-in">PRESENTATION</div>
+    <h2 class="section-title fade-in">成果発表<br>仮想劇場『ブカブカジョーシブカジョーシ』</h2>
+
+    <div class="performance-info fade-in">
+      <div class="info-card">
+        <div class="info-card-title">公演情報</div>
+        <ul class="info-list">
+          <li><span class="info-label">日時</span><span>2026年1月31日（土）17:00〜19:10</span></li>
+          <li><span class="info-label">会場</span><span>大阪大学中之島芸術センター 3Fスタジオ・セミナー室</span></li>
+          <li><span class="info-label">入場料</span><span>無料</span></li>
+          <li><span class="info-label">作</span><span>大竹野正典（くじら企画）</span></li>
+          <li><span class="info-label">演出</span><span>笠井友仁</span></li>
+          <li><span class="info-label">映像</span><span>サカイヒロト</span></li>
+          <li><span class="info-label">音響</span><span>宮田充規</span></li>
+          <li><span class="info-label">音楽</span><span>Ichizo Yoshioka</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <div class="info-card-title">出演者・受講生</div>
+        <ul class="info-list">
+          <li><span class="info-label">出演者</span><span>髙安美帆、森田祐利栄、岸本昌也、藤田和広</span></li>
+          <li><span class="info-label">受講生</span><span>近江由紀子、小野毅、清水彩雲、松田栄子、湯川元</span></li>
+          <li><span class="info-label">企画立案</span><span>永田靖</span></li>
+          <li><span class="info-label">映像協力・記録撮影</span><span>花澤結奈</span></li>
+          <li><span class="info-label">協力</span><span>塚本修、前田瑠佳、くじら企画</span></li>
+          <li><span class="info-label">主催</span><span>大阪大学中之島芸術センター</span></li>
+          <li><span class="info-label">運営・製作</span><span>エイチエムピー・シアターカンパニー（一般社団法人HMP）</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-label fade-in">VOICES</div>
+    <h3 style="font-family:'Shippori Mincho',serif;font-size:1.4rem;color:var(--white);margin-bottom:2rem" class="fade-in">受講した感想</h3>
+    <p style="color:var(--mid);font-size:0.85rem;margin-bottom:2rem" class="fade-in">受講生たちへの問い：「「仮想劇場」という表現形式に参加してみて、今、どんなふうに感じているか？」</p>
+
+    <div class="voices-grid fade-in">
+      <div class="voice-card">
+        <div class="voice-dash">── 受講生 A</div>
+        <div class="voice-text">リアルな役者さんの動きと、映像が同時に楽しめる。これがやっぱりすごい面白いなと。リアルとバーチャルが融合していたり、その味があるんじゃないかなと思っています。</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-dash">── 受講生 B</div>
+        <div class="voice-text">「仮想」と「劇」、いや、劇も「仮想」だろうと思って。芝居自体が仮想みたいなもんだから。隣に絡む役者さんがいない状態なので、家で自主練してるような感じでした。</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-dash">── 受講生 C</div>
+        <div class="voice-text">「映像」を重ね合わせるという演出方法については、普段の舞台でも奥行きや高低差を意識しますけど、それをより「2次元的に」捉えることが大事だなと痛感しています。</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-dash">── 受講生 D</div>
+        <div class="voice-text">普段と違って、「フレーム」を意識して演技をしなきゃいけないということと、音に合わせて動く、音は音で別に録音するというのは、やっぱり普段と違うので、すごく新鮮ですし、難しかったかなと思います。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESSAY -->
+<section id="essay">
+  <div class="container">
+    <div class="section-label fade-in">ESSAY</div>
+    <h2 class="section-title fade-in">自撮りのポリティクス<br><span style="font-size:0.55em;color:var(--mid)">劇団エイチエムピー・シアターカンパニーとのデジタル・パフォーマンスの試み</span></h2>
+    <p style="font-family:'Noto Sans JP',sans-serif;font-size:0.7rem;color:var(--yellow);letter-spacing:0.1em;margin-bottom:3rem" class="fade-in">永田 靖</p>
+
+    <div class="essay-layout">
+      <div class="essay-nav">
+        <div class="essay-nav-title">目次</div>
+        <ul class="essay-nav-list">
+          <li><a href="#essay-1">再演の概要</a></li>
+          <li><a href="#essay-2">自撮りとアルゴリズムの狭間</a></li>
+          <li><a href="#essay-3">声との遭遇</a></li>
+          <li><a href="#essay-4">6つの島のパノプチコン</a></li>
+        </ul>
+      </div>
+      <div class="essay-content fade-in">
+        <h3 id="essay-1">1）再演の概要</h3>
+        <p>この再演はいわゆる一般的な上演とは性格を異にしている。2025年度大阪大学中之島芸術センターが主催する社会人アート人材育成講座での上演である。受講生は7名あり、そのうち上演に俳優として参加したのは5名である。</p>
+        <p>今回の上演では、2020年のオンラインによるリモートでの上演とは異なる点が多い。まず全員、つまり俳優、技術者、観客が同一スタジオ内にいる。中之島芸術センター3階スタジオを広く使い、真ん中にスクリーン、その周囲に6つの演技エリアが設けられている。その演技エリアは三角形で、人1人か2人が立てばほぼ身動きできないほどの狭い空間である。</p>
+        <p>コロナ禍を終えた現在において、この作品をもう一度上演する意義はどこにあるのだろうか。現在、その制約がなくなった時に、再びデジタル技術と生身の演劇の関係を、実践的に問うことは、やはり今日的な仕事であろう。</p>
+
+        <h3 id="essay-2">2）自撮りとアルゴリズムの狭間</h3>
+        <p>今回の上演形式は、俳優が各スペースでカメラに向かって演じるという点で、「自撮り」的構造を持つ。身体はフレーム内に収まり、視線はカメラに向けられる。しかしその映像は単独では完結せず、中央のソフトウェアによって再配置され、一つの合成画面へと統合される。つまり、これは「自撮り」である。</p>
+        <p>自撮りとは、自らの携帯などで撮影した自分自身をSNSなどを通じて好みのサイトにアップすることを言う。重要なのは、その身体がすでに「他者に見られること」を前提としている点である。本作において俳優は、各々の三角形のスペースに閉じ込められ、カメラに向かって演じる。俳優はカメラを意識しつつも、その映像がどのように合成され、どの位置に再配置されるのかを完全には把握できない。</p>
+        <p>レフ・マノヴィッチが述べているように、ソフトウェアは単なる道具ではなく、文化的形式を規定する枠組みでもある。この合成ソフトウェアは舞台装置であると同時に、関係を編成する枠組みとして機能していると考えられる。</p>
+
+        <h3 id="essay-3">3）声との遭遇</h3>
+        <p>この作品のもう一つの特徴は、俳優の台詞がその場で発せられるのではなく、事前に録音された俳優本人の声の再生であることである。俳優は、録音された声のテンポ、間、抑揚、あるいは息づかいに、自分の身体を合わせていくことが求められる。言葉の意味や感情の生成はすでに終わっており、俳優の身体は、その「終わっている言葉」を追いかける。</p>
+        <p>通常の演劇では、俳優の声と身体は同じ現在に属している。しかしこの作品では、声は過去に録音されたものであり、現在の俳優はそれに合わせて動く。俳優は、自分の過去の声と現在の身体を重ね合わせながら、両者の一致や不一致、ほんのわずかな遅れ、ズレを抱え込んだまま演技を進めていく。</p>
+        <p>フィリップ・アウスランダーが『ライブネス』において述べたように、現代において「ライブ（生）性」は自明のものとして扱うのではなく、メディアとの関係のなかで再定義されるべきだとされる。この作品は、この点でライブ性を単なる同時性としてではなく、むしろ非同時的な構造の中に置き直している。</p>
+
+        <h3 id="essay-4">4）6つの島のパノプチコン</h3>
+        <p>本作の空間構造は、演劇史の長い流れの中に位置づけてみることもできる。この6つの演技スペースは互いに分断されているが、観客からはすべてが可視化される。俳優は自らの区画にとどまりながら、常に見られうる状況に置かれている。この点は、フーコーが論じたパノプチコンの構造を想起させる。</p>
+        <p>ただし、この作品が面白いのは、ここで記してきたいくつかの特徴——自撮り文化とアルゴリズム、過去の自己と現在の自己との二重性、そしてパノプチコン的可視性——が、単なる社会批評の寓意にとどまらないところだろう。俳優たちがその区画の中で身体を動かし、声と同期し、配置に組み込まれながらも、数多くの瞬間において、区画をはみ出し、声と時にずれ行く身体の動きが、現代デジタル社会の統御を踏み越えて行く強さを感じさせていた。</p>
+        <div class="essay-author">永田 靖</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDITS -->
+<section id="credits">
+  <div class="container">
+    <div class="section-label fade-in">CREDITS</div>
+    <h2 class="section-title fade-in">謝辞・クレジット</h2>
+    <div class="credits-grid fade-in">
+      <div class="credit-group">
+        <div class="credit-group-title">主催</div>
+        <p>大阪大学中之島芸術センター</p>
+      </div>
+      <div class="credit-group">
+        <div class="credit-group-title">共催（学内機関）</div>
+        <p>大阪大学人文学研究科・文学部 / D3センター / 理学研究科 / 人間科学研究科 / ミュージアム・リンクス / 21世紀懐徳堂 / SLiCSセンター</p>
+      </div>
+      <div class="credit-group">
+        <div class="credit-group-title">連携</div>
+        <p>大阪市立科学館、淨るりシアター、公益財団法人吹田市文化振興事業団（メイシアター）、豊中市都市活力部、兵庫県立尼崎青少年創造劇場（ピッコロシアター）、公益財団法人箕面市メイプル文化財団</p>
+      </div>
+      <div class="credit-group">
+        <div class="credit-group-title">運営・製作</div>
+        <p>エイチエムピー・シアターカンパニー<br>（一般社団法人HMP）</p>
+      </div>
+      <div class="credit-group">
+        <div class="credit-group-title">編集・制作</div>
+        <p>編集協力・本文組版：中村詩おり<br>カバーデザイン：岸本昌也<br>印刷・製本：グラフィック</p>
+      </div>
+      <div class="credit-group">
+        <div class="credit-group-title">助成</div>
+        <p>令和7年度「大学における芸術家等育成事業」</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">エイチエムピー・シアターカンパニー</div>
+  <div class="footer-copy">© 2026 HMP Theater Company. All rights reserved.</div>
+</footer>
+
+<script>
+  // Intersection Observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Stagger sibling fade-ins
+  document.querySelectorAll('.method-grid, .voices-grid, .credits-grid').forEach(grid => {
+    grid.querySelectorAll(':scope > *').forEach((child, i) => {
+      child.classList.add('fade-in');
+      child.style.transitionDelay = `${i * 0.1}s`;
+    });
+  });
+</script>
+</body>
+</html>
